@@ -140,27 +140,6 @@ var CMSdata = (function(d3, geos){
     return key;
   };
 
-  function parseRows(string, table) {
-    return d3.csvParseRows(string, function(d, j) {
-      var isGroup = d3.keys(geos).indexOf(rowData[0]) > -1;
-      var isHeaderOrFooter = (j <= 2 || j > 61);
-      if (isGroup || isHeaderOrFooter) { return null; }
-
-      var row = {};
-      row["dataset"] = tableNameToKey(table.path);
-      row["meta"] = table.meta;
-      row["geo"] = rowData[0];
-
-      if (row["dataset"].indexOf("Private") > -1) {
-        row["yearly"] = [null,null,null,null,null,null,null,null,null,null,+rowData[1],+rowData[2],+rowData[3],+rowData[4],+rowData[5],+rowData[6],+rowData[7],+rowData[8],+rowData[9],+rowData[10],+rowData[11],+rowData[12],+rowData[13],+rowData[14]];
-      } else {
-        row["yearly"] = [+rowData[1],+rowData[2],+rowData[3],+rowData[4],+rowData[5],+rowData[6],+rowData[7],+rowData[8],+rowData[9],+rowData[10],+rowData[11],+rowData[12],+rowData[13],+rowData[14],+rowData[15],+rowData[16],+rowData[17],+rowData[18],+rowData[19],+rowData[20],+rowData[21],+rowData[22],+rowData[23],+rowData[24]];
-      }
-
-      return row;
-    });
-  }
-
   var q = d3.queue();
 
   for (var i = 0; i < files.length; ++i) {
@@ -185,6 +164,7 @@ var CMSdata = (function(d3, geos){
         };
 
         if (row["dataset"].indexOf("Private") > -1) {
+          // these are missing several years of data...
           row["yearly"] = [null,null,null,null,null,null,null,null,null,null,+rowData[1],+rowData[2],+rowData[3],+rowData[4],+rowData[5],+rowData[6],+rowData[7],+rowData[8],+rowData[9],+rowData[10],+rowData[11],+rowData[12],+rowData[13],+rowData[14]];
         } else {
           row["yearly"] = [+rowData[1],+rowData[2],+rowData[3],+rowData[4],+rowData[5],+rowData[6],+rowData[7],+rowData[8],+rowData[9],+rowData[10],+rowData[11],+rowData[12],+rowData[13],+rowData[14],+rowData[15],+rowData[16],+rowData[17],+rowData[18],+rowData[19],+rowData[20],+rowData[21],+rowData[22],+rowData[23],+rowData[24]];
